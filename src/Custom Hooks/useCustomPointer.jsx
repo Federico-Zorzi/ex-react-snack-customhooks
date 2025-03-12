@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 
 export default function useCustomPointer(customCursor) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -10,14 +9,11 @@ export default function useCustomPointer(customCursor) {
     };
 
     document.addEventListener("mousemove", cursorPosition);
-    document.body.style.cursor = "none";
-    return () => {
-      document.removeEventListener("mousemove", cursorPosition);
-      document.body.style.cursor = "auto";
-    };
+
+    return () => document.removeEventListener("mousemove", cursorPosition);
   }, []);
 
-  return createPortal(
+  return (
     <div
       style={{
         position: "fixed",
@@ -25,12 +21,12 @@ export default function useCustomPointer(customCursor) {
         left: position.x,
         transform: "translate(-50%, -50%)",
         pointerEvents: "none",
+        cursor: "none",
         zIndex: 9999,
       }}
     >
       {/* {position.x} , {position.y} */}
       {customCursor}
-    </div>,
-    document.body
+    </div>
   );
 }
