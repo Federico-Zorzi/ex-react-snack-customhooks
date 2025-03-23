@@ -8,7 +8,7 @@ export default function useKeyPress(targetKey = "") {
       if (e.key === targetKey) setKeyPressed(true);
     };
 
-    const releaseKey = () => {
+    const releaseKey = (e) => {
       if (e.key === targetKey) setKeyPressed(false);
     };
 
